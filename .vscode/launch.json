@@ -6,16 +6,20 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
+            "name": "Help",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "Main",
+            "projectName": "BudgetProject"
         },
         {
             "type": "java",
-            "name": "Main",
+            "name": "Launch Main",
             "request": "launch",
-            "mainClass": "Main",
-            "projectName": "BudgetProject-2.0_441047a6"
+            "mainClass": "src.Main",
+            "projectName": "BudgetProject",
+            "classPaths": [
+                "${workspaceFolder}/target/classes"
+            ]
         }
     ]
 }

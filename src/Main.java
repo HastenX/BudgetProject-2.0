@@ -1,7 +1,9 @@
-package src;
+import Line.Menu;
+import Line.Output;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World");
+        Menu.path();
+        Output.path();
     }
 }

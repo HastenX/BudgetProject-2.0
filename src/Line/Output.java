@@ -1,5 +1,7 @@
-package src.Line;
+package Line;
 
 public class Output {
+    public static void path() {
 
+    }
 }
