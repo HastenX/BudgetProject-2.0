@@ -4,10 +4,14 @@ import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 public class Budget {
     @JsonAppend
-    public class SpendingData {
+    public static class SpendingData {
         private String name;
         private double cost;
         private int value;
+
+        public SpendingData() {
+
+        }
 
         public SpendingData(String name, double cost, int value) {
             this.name = name;
@@ -38,6 +42,7 @@ public class Budget {
         public void setValue(int value) {
             this.value = value;
         }
+
     }
 
     public class BaseData {

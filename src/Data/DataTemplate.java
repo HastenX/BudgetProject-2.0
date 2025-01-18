@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import Data.StoredData.Budget;
 import Data.StoredData.Budget.BaseData;
 import Data.StoredData.Budget.SpendingData;
 
@@ -43,10 +42,10 @@ public abstract class DataTemplate {
     }
 
     protected SpendingData createSpendingObject() {
-        return (new Budget()).new SpendingData(spendingName, spendingCost, spendingValue);
+        return new SpendingData(spendingName, spendingCost, spendingValue);
     }
 
     protected SpendingData createBaseObject() {
-        return (new Budget()).new SpendingData(spendingName, spendingCost, spendingValue);
+        return new SpendingData(spendingName, spendingCost, spendingValue);
     }
 }

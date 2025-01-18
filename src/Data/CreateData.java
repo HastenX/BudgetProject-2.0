@@ -2,16 +2,21 @@ package Data;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import Data.StoredData.Budget.SpendingData;
 
 public class CreateData extends DataTemplate {
-
-    private String dataFile = "src/Data/StoredData/SpendingData.json";
+    private File dataFile = new File("src/Data/StoredData/SpendingData.json");
 
     public void path() {
-        genData(managePlayerInput());
+        objectMapper = getObjectMapper();
+        List<SpendingData> exsistingData = getExistingData();
+        SpendingData newData = managePlayerInput();
+        exsistingData.add(newData);
+        genData(exsistingData);
     }
 
     protected void getPlayerInput(int i) {
@@ -31,23 +36,29 @@ public class CreateData extends DataTemplate {
         }
     }
 
-    protected ArrayList<SpendingData> managePlayerInput() {
-        for (int i = 0; i <= 3; i++) {
+    private List<SpendingData> getExistingData() {
+        List<SpendingData> dataList = getSpendingArrayList();
+        try {
+            dataList = objectMapper.readValue(dataFile, new TypeReference<List<SpendingData>>() {
+            });
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        return dataList;
+    }
+
+    protected SpendingData managePlayerInput() {
+        for (int i = 0; i <= 4; i++) {
             listOrders(i);
             getPlayerInput(i);
         }
-        spendingArrayList = getSpendingArrayList();
-        spendingArrayList.add(createSpendingObject());
-        spendingName = null;
-        spendingCost = -1;
-        spendingValue = -1;
-        return spendingArrayList;
+        return new SpendingData(spendingName, spendingCost, spendingValue);
     }
 
-    private void genData(ArrayList<SpendingData> arrayList) {
-        objectMapper = getObjectMapper();
+    private void genData(List<SpendingData> list) {
         try {
-            objectMapper.writeValue(new File(dataFile), arrayList);
+            objectMapper.writeValue(dataFile, list);
         } catch (IOException e) {
             System.out.println(e);
         }
