@@ -1,17 +1,18 @@
 package Data;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import Data.StoredData.Budget.SpendingData;
 
-public class CreateData extends DataTemplate {
-
-    private String dataFile = "src/Data/StoredData/SpendingData.json";
-
+public class GetDataUser extends DataTemplate {
+    // From Create data, fix later
     public void path() {
         genData(managePlayerInput());
+    }
+
+    public boolean isCorrupt() {
+        return true;
     }
 
     protected void getPlayerInput(int i) {
@@ -47,9 +48,9 @@ public class CreateData extends DataTemplate {
     private void genData(ArrayList<SpendingData> arrayList) {
         objectMapper = getObjectMapper();
         try {
-            objectMapper.writeValue(new File(dataFile), arrayList);
-        } catch (IOException e) {
-            System.out.println(e);
+            objectMapper.writeValue(new File("BaseData.json"), arrayList);
+        } catch (Exception e) {
+            System.out.println("Error in accessing File");
         }
     }
 
