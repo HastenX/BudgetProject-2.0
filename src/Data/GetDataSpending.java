@@ -6,34 +6,21 @@ import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import Data.StoredData.Budget.SpendingData;
+import Line.Output;
 
-public class CreateData extends DataTemplate {
+public class GetDataSpending extends DataTemplate {
 
     public void path() {
         objectMapper = getObjectMapper();
-        List<SpendingData> newListData = managePlayerInput();
         List<SpendingData> exsistingData = getExistingData();
+        baseData = new GetDataBase().getBaseData();
         if (exsistingData != null) {
-            newListData.addAll(exsistingData);
+            new Output().path(exsistingData, baseData);
         }
-        genData(newListData);
     }
 
     protected void getPlayerInput(int i) {
-        scanner = getScanner();
-        switch (i) {
-            case 1:
-                spendingName = scanner.nextLine();
-                break;
-            case 2:
-                spendingCost = scanner.nextDouble();
-                break;
-            case 3:
-                spendingValue = scanner.nextInt();
-                break;
-            default:
-                break;
-        }
+
     }
 
     private List<SpendingData> getExistingData() {
@@ -48,23 +35,12 @@ public class CreateData extends DataTemplate {
         return dataList;
     }
 
-    protected List<SpendingData> managePlayerInput() {
-        tempDataList = getSpendingArrayList();
+    protected SpendingData managePlayerInput() {
         for (int i = 0; i <= 4; i++) {
             listOrders(i);
             getPlayerInput(i);
         }
-        SpendingData newData = new SpendingData(spendingName, spendingCost, spendingValue);
-        tempDataList.add(newData);
-        return tempDataList;
-    }
-
-    public void genData(List<SpendingData> list) {
-        try {
-            objectMapper = getObjectMapper();
-            objectMapper.writeValue(spendingDataFile, list);
-        } catch (IOException e) {
-        }
+        return new SpendingData(spendingName, spendingCost, spendingValue);
     }
 
     protected void listOrders(int i) {

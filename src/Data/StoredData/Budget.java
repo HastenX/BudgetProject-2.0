@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.annotation.JsonAppend;
 public class Budget {
     @JsonAppend
     public static class SpendingData {
-        private String name;
-        private double cost;
-        private int value;
+        public String name;
+        public double cost;
+        public int value;
 
         public SpendingData() {
 
@@ -28,6 +28,12 @@ public class Budget {
         }
 
         public int getValue() {
+            if (value > 3) {
+                return 3;
+            }
+            if (value < 1) {
+                return 1;
+            }
             return value;
         }
 
@@ -45,17 +51,55 @@ public class Budget {
 
     }
 
-    public class BaseData {
-        private double salary;
-        private double debt;
-        private double savings;
-        private double insuranceCost;
+    @JsonAppend
+    public static class BaseData {
+        public double salary;
+        public double debt;
+        public double savings;
+        public double APY;
 
-        public BaseData(double salary, double debt, double savings, double insuranceCost) {
+        public BaseData() {
+
+        }
+
+        public BaseData(double salary, double debt, double savings, double APY) {
             this.salary = salary;
             this.debt = debt;
             this.savings = savings;
-            this.insuranceCost = insuranceCost;
+            this.APY = APY;
         }
+
+        public double getSalary() {
+            return salary;
+        }
+
+        public double getDebt() {
+            return debt;
+        }
+
+        public double getSavings() {
+            return savings;
+        }
+
+        public double getAPY() {
+            return APY;
+        }
+
+        public void setSalary(double salary) {
+            this.salary = salary;
+        }
+
+        public void setDebt(double debt) {
+            this.debt = debt;
+        }
+
+        public void setSavings(double savings) {
+            this.savings = savings;
+        }
+
+        public void setAPY(double APY) {
+            this.APY = APY;
+        }
+
     }
 }

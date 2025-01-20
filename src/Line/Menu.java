@@ -5,12 +5,11 @@ import java.util.Scanner;
 import Data.*;
 
 public class Menu {
-    public boolean isFinished;
 
     private Scanner scanner;
 
     public void path() {
-        while (!isFinished) {
+        while (true) {
             // new Initalize().path();
             new Menu().listOptions();
             new Menu().sendToLocation(new Menu().getPlayerInput());
@@ -20,8 +19,8 @@ public class Menu {
     private void listOptions() {
         System.out.println("Please selct an option for the Budget:"
                 + "\n1 : Create a new source of spending"
-                + "\n2 : Manage current budget"
-                + "\n3 : Remove current budget data"
+                + "\n2 : Remove current budget data"
+                + "\n3 : Change base usser data"
                 + "\n4 : Get current budget data");
     }
 
@@ -48,13 +47,13 @@ public class Menu {
                 new CreateData().path();
                 break;
             case 2:
-                new AdjustData().path();
+                new RemoveData().path();
                 break;
             case 3:
-                new RemoveData().path();
+                new InitalizeData().getFromMenu();
                 break;
             case 4:
-                new RemoveData().path();
+                new GetDataSpending().path();
                 break;
             default:
                 System.out.println("Enter a number with the given paremeters");

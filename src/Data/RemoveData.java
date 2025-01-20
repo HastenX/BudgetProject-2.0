@@ -1,70 +1,61 @@
 package Data;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import Data.StoredData.Budget.SpendingData;
 
 public class RemoveData extends DataTemplate {
-    // From Create data, fix later
     public void path() {
         objectMapper = getObjectMapper();
-        genData(managePlayerInput());
+        savedList = getSpendingArrayList();
+        List<SpendingData> exsistingData = getExistingData();
+        managePlayerInput();
+        savedList = getRemoved(exsistingData);
+        new CreateData().genData(savedList);
+    }
+
+    private List<SpendingData> getRemoved(List<SpendingData> currentData) {
+        Iterator<SpendingData> iterator = currentData.iterator();
+        savedList = getSpendingArrayList();
+        while (iterator.hasNext()) {
+            SpendingData willRemove = iterator.next();
+            if ((willRemove.getName().toUpperCase()).equals(removeSpendingName.toUpperCase())) {
+                iterator.remove();
+                break;
+            }
+            savedList.add(willRemove);
+        }
+        return savedList;
     }
 
     protected void getPlayerInput(int i) {
         scanner = getScanner();
-        switch (i) {
-            case 1:
-                spendingName = scanner.nextLine();
-                break;
-            case 2:
-                spendingCost = scanner.nextDouble();
-                break;
-            case 3:
-                spendingValue = scanner.nextInt();
-                break;
-            default:
-                break;
-        }
+        removeSpendingName = scanner.nextLine();
     }
 
-    protected ArrayList<SpendingData> managePlayerInput() {
-        for (int i = 0; i <= 3; i++) {
-            listOrders(i);
-            getPlayerInput(i);
-        }
-        spendingArrayList = getSpendingArrayList();
-        spendingArrayList.add(createSpendingObject());
-        spendingArrayList.add(objectMapper.convertValue(createSpendingObject(), SpendingData.class));
-        System.out.println(spendingArrayList);
-        spendingName = null;
-        spendingCost = -1;
-        spendingValue = -1;
-        return spendingArrayList;
-    }
-
-    private void genData(ArrayList<SpendingData> arrayList) {
+    private List<SpendingData> getExistingData() {
+        List<SpendingData> dataList = getSpendingArrayList();
+        objectMapper = getObjectMapper();
         try {
-            objectMapper.writeValue(new File("BaseData.json"), arrayList);
-        } catch (Exception e) {
-            System.out.println("Error in accessing File");
+            dataList = objectMapper.readValue(spendingDataFile, new TypeReference<List<SpendingData>>() {
+            });
+        } catch (IOException e) {
+            System.out.println(e);
         }
+
+        return dataList;
+    }
+
+    protected void managePlayerInput() {
+        listOrders(0);
+        getPlayerInput(0);
     }
 
     protected void listOrders(int i) {
-        switch (i) {
-            case 1:
-                System.out.println("Please Enter the name of the spending: ");
-                break;
-            case 2:
-                System.out.println("Please Enter the cost: ");
-                break;
-            case 3:
-                System.out.println("Please Enter the value(1-3, most to least important): ");
-                break;
-            default:
-                break;
-        }
+        System.out.println("Please Enter the name of the spending being removed: ");
     }
 }
