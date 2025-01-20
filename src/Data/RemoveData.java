@@ -23,11 +23,14 @@ public class RemoveData extends DataTemplate {
         savedList = getSpendingArrayList();
         while (iterator.hasNext()) {
             SpendingData willRemove = iterator.next();
-            if ((willRemove.getName().toUpperCase()).equals(removeSpendingName.toUpperCase())) {
-                iterator.remove();
-                break;
+            // if
+            // ((willRemove.getName().toUpperCase()).equals(removeSpendingName.toUpperCase()))
+            // {
+            // iterator.remove();
+            // }
+            if (!(willRemove.getName().toUpperCase()).equals(removeSpendingName.toUpperCase())) {
+                savedList.add(willRemove);
             }
-            savedList.add(willRemove);
         }
         return savedList;
     }
@@ -46,7 +49,7 @@ public class RemoveData extends DataTemplate {
         } catch (IOException e) {
             System.out.println(e);
         }
-
+        System.out.println(dataList.get(0).name);
         return dataList;
     }
 
